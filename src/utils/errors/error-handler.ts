@@ -45,6 +45,15 @@ export class NotAuthorizedError extends CustomError {
   }
 }
 
+export class NotFoundError extends CustomError {
+  status_code = 404
+  status = 'error'
+
+  constructor(public message: string) {
+    super(message)
+  }
+}
+
 type IZodError = {
   message: string
   path: Array<string | number>
