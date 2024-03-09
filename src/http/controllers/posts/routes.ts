@@ -3,9 +3,12 @@ import { Router } from 'express'
 import { authenticate } from '@/http/middlewares/auth/authenticate'
 
 import { create } from './create'
+import { findPosts } from './find-posts'
 
 const router = Router()
 
-router.route('/posts').post(authenticate, create)
+router.use(authenticate)
+
+router.route('/posts').post(create).get(findPosts)
 
 export default { router }
