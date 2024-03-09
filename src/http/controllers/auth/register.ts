@@ -5,7 +5,10 @@ import bcrypt from 'bcrypt'
 import { createAuthJWT } from '@/lib/jwt'
 import db from '@/lib/db'
 import { users } from '@/lib/db/schema'
-import { BadRequestError } from '@/utils/errors/error-handler'
+import {
+  BadRequestError,
+  ZodRequestValidatorError,
+} from '@/utils/errors/error-handler'
 
 export async function register(req: Request, res: Response) {
   const signUpSchema = z.object({
@@ -13,7 +16,13 @@ export async function register(req: Request, res: Response) {
     password: z.string().min(6),
   })
 
-  const { email, password } = signUpSchema.parse(req.body)
+  const _data = signUpSchema.safeParse(req.body)
+
+  if (!_data.success) {
+    throw new ZodRequestValidatorError(_data.error.errors)
+  }
+
+  const { email, password } = _data.data
 
   const userFromEmail = await db.query.users.findFirst({
     where(fields, operators) {

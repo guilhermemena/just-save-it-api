@@ -7,7 +7,6 @@ export interface IErrorResponse {
 
 export interface IError {
   message: string
-  status_code: number
   status: string
 }
 
@@ -23,7 +22,6 @@ export abstract class CustomError extends Error {
   serialize_errors(): IError {
     return {
       message: this.message,
-      status_code: this.status_code,
       status: this.status,
     }
   }
@@ -44,5 +42,29 @@ export class NotAuthorizedError extends CustomError {
 
   constructor(public message: string) {
     super(message)
+  }
+}
+
+type IZodError = {
+  message: string
+  path: Array<string | number>
+}
+
+export class ZodRequestValidatorError extends Error {
+  status_code = 400
+  status = 'error'
+
+  // eslint-disable-next-line n/handle-callback-err
+  constructor(public error: IZodError[]) {
+    super()
+  }
+
+  serialize_errors() {
+    return {
+      status: this.status,
+      errors: this.error.map((err) => {
+        return { message: err.message, field: err.path.join('.') }
+      }),
+    }
   }
 }

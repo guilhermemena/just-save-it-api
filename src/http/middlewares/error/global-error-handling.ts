@@ -5,7 +5,11 @@ import {
   type Application,
 } from 'express'
 
-import { type IErrorResponse, CustomError } from '@/utils/errors/error-handler'
+import {
+  type IErrorResponse,
+  CustomError,
+  ZodRequestValidatorError,
+} from '@/utils/errors/error-handler'
 
 export function globalErrorHandler(app: Application) {
   app.all('*', (req: Request, res: Response) => {
@@ -22,6 +26,10 @@ export function globalErrorHandler(app: Application) {
       console.error(error)
 
       if (error instanceof CustomError) {
+        return res.status(error.status_code).json(error.serialize_errors())
+      }
+
+      if (error instanceof ZodRequestValidatorError) {
         return res.status(error.status_code).json(error.serialize_errors())
       }
 

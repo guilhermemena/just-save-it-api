@@ -7,7 +7,7 @@
     "dev": "tsx watch src/server.ts",
     "migration:generate": "drizzle-kit generate:pg",
     "migration:push": "drizzle-kit push:pg",
-    "migration:run": "bun src/migration.ts"
+    "migration:run": "bun src/lib/db/migration.ts"
   },
   "repository": {
     "type": "git",
