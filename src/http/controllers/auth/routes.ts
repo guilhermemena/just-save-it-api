@@ -5,7 +5,7 @@ import { authenticate } from './authenticate'
 
 const router = Router()
 
-router.route('/register').post(register)
-router.route('/authenticate').post(authenticate)
+router.route('/auth/register').post(register)
+router.route('/auth/authenticate').post(authenticate)
 
 export default { router }

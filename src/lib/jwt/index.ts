@@ -3,7 +3,7 @@ import * as jose from 'jose'
 import { env } from '@/env'
 import { NotAuthorizedError } from '@/utils/errors/error-handler'
 
-type JWTPayload = {
+export type JWTPayload = {
   sub: string
   email: string
 }
