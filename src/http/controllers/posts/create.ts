@@ -26,5 +26,8 @@ export async function create(req: Request, res: Response) {
     .values({ title, url, description, image_url, user_id: req.user.sub })
     .returning()
 
-  return res.status(201).json(post)
+  return res.status(201).json({
+    status: 'success',
+    data: post,
+  })
 }
