@@ -7,8 +7,8 @@ import { ZodRequestValidatorError } from '@/utils/errors/error-handler'
 
 export async function create(req: Request, res: Response) {
   const createPostOnTagSchema = z.object({
-    post_id: z.string(),
-    tag_id: z.string(),
+    post_id: z.string().uuid(),
+    tag_id: z.string().uuid(),
   })
 
   const _data = createPostOnTagSchema.safeParse(req.body)
