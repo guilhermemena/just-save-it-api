@@ -1,4 +1,4 @@
-import { relations } from 'drizzle-orm'
+import { type InferSelectModel, relations } from 'drizzle-orm'
 import { pgTable, uuid, text, timestamp } from 'drizzle-orm/pg-core'
 
 export const users = pgTable('users', {
@@ -69,6 +69,8 @@ export const postOnTags = pgTable('post_tags', {
     .notNull()
     .references(() => tags.id),
 })
+
+export type PostOnTags = InferSelectModel<typeof postOnTags>
 
 export const postOnTagsRelations = relations(postOnTags, ({ one }) => ({
   post: one(posts, {
